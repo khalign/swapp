@@ -56,7 +56,7 @@ export default Movies
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Colors.sw.grey
+        // backgroundColor: Colors.sw.grey
     },
     filters: {
         marginVertical: 10,
