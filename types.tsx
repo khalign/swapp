@@ -6,7 +6,8 @@
 export type RootStackParamList = {
   Root: undefined;
   NotFound: undefined;
-  Movies: undefined
+  Movies: undefined;
+  MovieDetails: { item: any };
 };
 
 export type BottomTabParamList = {

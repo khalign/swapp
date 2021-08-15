@@ -14,6 +14,9 @@ import BottomTabNavigator from './BottomTabNavigator';
 import LinkingConfiguration from './LinkingConfiguration';
 
 import Movies from "../screens/Movies";
+import MovieDetails from "../screens/MovieDetails";
+
+import Colors from "../constants/Colors";
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -31,9 +34,16 @@ const Stack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
-    <Stack.Navigator >
+    <Stack.Navigator screenOptions={{
+        headerStyle: {backgroundColor: Colors.sw.black},
+        headerTintColor: Colors.sw.white
+    }} >
         <Stack.Screen name={'Movies'} component={Movies} options={{
             title: 'Star War Movies'
+        }} />
+
+        <Stack.Screen name={'MovieDetails'} component={MovieDetails} options={{
+            title: 'Movie Details'
         }} />
 
       <Stack.Screen name="Root" component={BottomTabNavigator} />
