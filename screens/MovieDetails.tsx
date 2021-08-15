@@ -18,9 +18,9 @@ const MovieDetails = ({navigation, route}: Props) => {
     const [species, setSpecies] = useRecoilState(swspecies)
 
     const checkCharacters = async () => {
-      characters.slice(0, 5).map((url: string) => {
-          people[url] ? checkSpecies(people[url].specie) : getPeople(url)
-      })
+        characters.slice(0, 5).map((url: string) => {
+            people[url] ? checkSpecies(people[url].specie) : getPeople(url)
+        })
     }
 
     const checkSpecies = async (url: string) => {
@@ -28,9 +28,9 @@ const MovieDetails = ({navigation, route}: Props) => {
     }
 
     const getPeople = async (url: string) => {
-      const {data} = await swapi.people(getIdFromUrl(url))
-        const {name, gender,species} = data
-        setPeople((old: object) => ({...old, [url]: {name, gender, specie:species[0]}}))
+        const {data} = await swapi.people(getIdFromUrl(url))
+        const {name, gender, species} = data
+        setPeople((old: object) => ({...old, [url]: {name, gender, specie: species[0]}}))
         checkSpecies(species[0])
     }
 
@@ -39,47 +39,43 @@ const MovieDetails = ({navigation, route}: Props) => {
         setSpecies((old: object) => ({...old, [url]: {name: data.name}}))
     }
 
-    const getIdFromUrl = (url:string) => {
+    const getIdFromUrl = (url: string) => {
         const temp = url.split('/')
-        return  temp[temp.length -2]
+        return temp[temp.length - 2]
     }
 
-    React.useEffect(()=> {
+    React.useEffect(() => {
         checkCharacters()
     }, [])
 
     return (
-        <View>
-            <ListItem title={title} episode_id={episode_id} release_date={release_date} />
+        <>
+            <ListItem title={title} episode_id={episode_id} release_date={release_date}/>
 
             <MonoText style={styles.mono}>Top 5 Characters</MonoText>
 
-            <View>
-                {
-                    characters.slice(0, 5).map((url: string)=> {
-                        if (people[url]) {
-                            const {name, gender, specie} = people[url]
-                            return people[url] && (
-                                <View key={url} style={styles.people}>
-                                    <MonoText style={{flex: 1}}>{name}</MonoText>
-                                    <MonoText style={{flex: 0, marginHorizontal: 30}}>{gender}</MonoText>
-                                    <MonoText style={{flex: 0}}>{species[specie]?.name}</MonoText>
-                                </View>
-                            )
-                        }
-                    })
-                }
-            </View>
-        </View>
+            {
+                characters.slice(0, 5).map((url: string) => {
+                    if (people[url]) {
+                        const {name, gender, specie} = people[url]
+                        return people[url] && (
+                            <View key={url} style={styles.people}>
+                                <MonoText style={styles.left}>{name}</MonoText>
+                                <MonoText style={styles.middle}>{gender}</MonoText>
+                                <MonoText style={styles.right}>{species[specie]?.name}</MonoText>
+                            </View>
+                        )
+                    }
+                })
+            }
+        </>
     )
 }
 
 export default MovieDetails
 
 const styles = StyleSheet.create({
-    container: {
-
-    },
+    container: {},
     mono: {
         margin: 20,
         textAlign: 'center'
@@ -88,5 +84,16 @@ const styles = StyleSheet.create({
         margin: 20,
         flexDirection: 'row',
         justifyContent: 'space-between'
+    },
+    left: {
+        flex: 3,
+    },
+    middle: {
+        flex: 2,
+        textAlign: 'center'
+    },
+    right: {
+        flex: 1,
+        textAlign: 'right'
     }
 })

@@ -7,7 +7,6 @@ import ListItem from "../components/ListItem";
 
 import swapi from '../api/swapi'
 import {swmovies} from "../store/atoms";
-import Colors from "../constants/Colors";
 
 import {RootStackParamList} from "../types";
 type Props = StackScreenProps<RootStackParamList, 'Movies'>;
@@ -16,19 +15,25 @@ const Movies = ({navigation}: Props) => {
     const [movies, setMovies] = useRecoilState(swmovies);
 
     const getMovies = async () => {
-       const {data} = await swapi.movies()
+        const {data} = await swapi.movies()
         setMovies(data.results)
     }
 
-    React.useEffect(()=>{
+    React.useEffect(() => {
         getMovies()
     }, [])
 
-    const renderMovie = ({item, index}) => {
+    const renderMovie = ({item, index}: any) => {
         const {title, episode_id, release_date} = item
 
         return (
-            <ListItem key={index} title={title} episode_id={episode_id} release_date={release_date} onPress={()=>navigation.navigate('MovieDetails', {item})} />
+            <ListItem
+                key={index}
+                title={title}
+                episode_id={episode_id}
+                release_date={release_date}
+                onPress={() => navigation.navigate('MovieDetails', {item})}
+            />
         )
     }
 
@@ -36,16 +41,18 @@ const Movies = ({navigation}: Props) => {
         <View style={styles.container}>
             <View style={styles.filters}>
                 <Text style={{flex: 1}}>Title</Text>
+
                 <Text style={{flex: 0, marginRight: 15}}>Episode</Text>
+
                 <Text style={{flex: 0}}>Year</Text>
             </View>
 
             {movies.length > 0 &&
-                <FlatList
-                    data={movies}
-                    renderItem={renderMovie}
-                    keyExtractor={item => item.title}
-                />
+            <FlatList
+                data={movies}
+                renderItem={renderMovie}
+                keyExtractor={item => item.title}
+            />
             }
         </View>
     )
@@ -56,7 +63,6 @@ export default Movies
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // backgroundColor: Colors.sw.grey
     },
     filters: {
         marginVertical: 10,
